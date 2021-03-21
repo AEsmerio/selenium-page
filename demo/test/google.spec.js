@@ -8,7 +8,7 @@ for (const browser of PageDefs.browsers) {
     this.timeout(30001)
     
     let str = ""
-    const googlePage = new GooglePage({browser, resolution: PageDefs.resolutions.maximize})
+    const googlePage = new GooglePage({browser, resolution: PageDefs.resolutions.maximize, findConfig: {screenshot: `${__dirname}/screenshot/`}})
   
     beforeEach(async () => {
       await googlePage.open()
@@ -47,7 +47,7 @@ for (const browser of PageDefs.browsers) {
   
     it("Fail and get screen shot", async () => {
       const screenshotFileName = Date.now()
-      const screenshotFilePath = `${__dirname}/../../screenshot/${screenshotFileName}.png`
+      const screenshotFilePath = `${__dirname}/screenshot/${screenshotFileName}.png`
       const cssSelector = ".Anything#thatMakeIt.Fail"
       try {
         await googlePage.findBy.css(cssSelector, {screenshotName: screenshotFileName})

@@ -14,7 +14,12 @@ const findConfigDefault = {
 
 const pageFindConfigDefault = {
   dataTestAttr: "data-test",
-  screenshot: true
+  /** 
+   * @type {Boolean | String} 
+   * True or Empty string turn on the screenshot on default folder "node_modules/selenium-page/screenshot". 
+   * screenshot can also receive a path to change the default folder.
+  */
+   screenshot: `${__dirname}/screenshot`
 }
 
 function getContextStack() {
@@ -30,11 +35,11 @@ function getContextStack() {
 /**
  * @param {WebDriver} driver 
  */
-  async function takeScreenshot(data, name) {
+async function takeScreenshot(data, name, screenshotFolder) {
   const base64Data = data.replace(/^data:image\/png;base64,/,"")
-  const path = `${__dirname}/screenshot/`
-  const filePath = `${path}${name}.png`
-  await fs.promises.mkdir(path, { recursive: true }, console.error)
+  if (!screenshotFolder.endsWith("/")) screenshotFolder += "/"
+  const filePath = `${screenshotFolder}${name}.png`
+  await fs.promises.mkdir(screenshotFolder, { recursive: true }, console.error)
   await fs.promises.writeFile(filePath, base64Data, 'base64')
   return filePath
 }
@@ -75,7 +80,7 @@ class PageBaseFindBy {
       error.message += config.message ? `\nMessage: ${config.message}` : ""
       if (this.pageFindConfig.screenshot) {
         const imgBase64 = await this.driver.takeScreenshot()
-        error.message += "\nScreenshot: " + await takeScreenshot(imgBase64, config.screenshotName || Date.now())
+        error.message += "\nScreenshot: " + await takeScreenshot(imgBase64, config.screenshotName || Date.now(), this.pageFindConfig.screenshot)
       }
       error.stack = error.stack.split("    at")[0] + "\n" + contextStack
       throw error
