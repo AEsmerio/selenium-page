@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
+  "javascript.format.semicolons": "remove",
+  "editor.trimAutoWhitespace": true
+}

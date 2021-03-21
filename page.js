@@ -11,7 +11,7 @@ const browserOpera = "opera"
 const Max = "Max"
 
 const PageDefs = {
-  browsers: [browserChrome, browserSafari, browserFirefox, browserIE, browserEdge, browserOpera],
+  browsers: { browserChrome, browserSafari, browserFirefox, browserIE, browserEdge, browserOpera },
   resolutions: {
     maximize: { width: Max, height: Max },
     desktop: { width: 1920, height: 1080 },
@@ -73,7 +73,7 @@ class Page {
           break
       }
 
-      if (!options) throw new Error(`"${this.pageConfig.browser}" is not supported browser. Selenium-Page supports: ${PageDefs.browsers.join(", ")}.`)
+      if (!options) throw new Error(`"${this.pageConfig.browser}" is not supported browser. Selenium-Page supports: ${Object.values(PageDefs.browsers).join(", ")}.`)
 
       this.pageConfig.browserArgs.forEach(arg => {
         options.addArguments(arg)
@@ -104,7 +104,7 @@ class Page {
   }
 
   /**
-   * @param {string} url 
+   * @param {string} url
    * @param {{width: number, height: number}} resolution PageDefs.resolutions has some templates. If resolution is not set, it will use the the PageConfig.resolution
    */
   async open(url, resolution) {
