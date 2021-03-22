@@ -1,4 +1,5 @@
-const { Page, Key, PageDefs } = require("../../../page")
+// const { Page, Key, PageDefs } = require("../../../page")
+const { Page, Key, PageDefs } = require("selenium-page")
 const googleUrl = "https://google.com"
 
 /**
@@ -23,9 +24,9 @@ class GooglePage extends Page {
     await this.driver.sleep(500) //this sleep helps to ensure Google is fully ready
   }
 
-  async clickAgreePrivacyDialog (){
+  async clickAgreePrivacyDialog() {
     const consentIFrameXPath = "//iframe[contains(@src, 'consent.google.com')]"
-    const consentIFrame = await this.findBy.xpath(consentIFrameXPath, {mustFind: false, message: "iFrame Consent not found"})
+    const consentIFrame = await this.findBy.xpath(consentIFrameXPath, { mustFind: false, message: "iFrame Consent not found" })
     if (consentIFrame) {
       await this.switchToFrame.element(consentIFrame)
       await this.waitDisappearBy.xpath(consentIFrameXPath)
@@ -43,4 +44,4 @@ class GooglePage extends Page {
   }
 }
 
-module.exports = { GooglePage, Key, strictEqual, PageDefs} 
+module.exports = { GooglePage, Key, strictEqual, PageDefs }

@@ -1,0 +1,19 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test:e2e - quick": "./node_modules/mocha/bin/mocha './quick/google.spec.js'",
+    "test:e2e - recommended": "./node_modules/mocha/bin/mocha './test/google.spec.js'"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mocha": "^8.3.2",
+    "selenium-page": "^1.0.8-beta"
+  }
+}

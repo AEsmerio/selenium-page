@@ -1,6 +1,6 @@
 {
   "name": "selenium-page",
-  "version": "1.0.8-beta",
+  "version": "1.0.8",
   "description": "A superset class for simpler access to most common functionalities Selenium-Webdriver",
   "main": "page.js",
   "repository": {

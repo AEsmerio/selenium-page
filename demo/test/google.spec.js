@@ -1,7 +1,5 @@
 const { GooglePage, strictEqual, PageDefs } = require("./page/google")
 
-
-
 for (const browser of Object.values(PageDefs.browsers)) {
 
   describe(`Google on ${browser}`, async function () {
