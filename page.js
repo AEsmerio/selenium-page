@@ -26,7 +26,13 @@ const pageConfigDefault = {
     { prop: "setPageLoadStrategy", value: "normal" }
   ],
   findConfig: pageFindConfigDefault,
-  resolution: PageDefs.resolutions.maximize
+  resolution: PageDefs.resolutions.maximize,
+  /** 
+   * if webdriverOverride is set, the params "browser", "browserArgs" and "browserCapability" will be ignored. 
+   * Ensure webdriverOverride is correct and full configured. 
+   * @type {ThenableWebDriver | Null} 
+   * */
+  webdriverOverride: null
 }
 
 class Page {
@@ -40,56 +46,62 @@ class Page {
       this.pageConfig.findConfig = findConfig
       this.pageConfig.resolution = resolution
 
-      const caps = new Capabilities()
-      this.pageConfig.browserCapability.forEach(cap => {
-        caps.set(cap.prop, cap.value)
-      })
+      if (this.pageConfig.webdriverOverride) {
+        console.info("  Page > Webdriver was built outside Selenium-Page")
+        this.driver = this.pageConfig.webdriverOverride
+      } else {
+        const caps = new Capabilities()
+        this.pageConfig.browserCapability.forEach(cap => {
+          caps.set(cap.prop, cap.value)
+        })
 
-      let options = null
-      switch (this.pageConfig.browser) {
-        case browserChrome:
-          const chrome = require('selenium-webdriver/chrome')
-          options = new chrome.Options()
-          break
-        case browserSafari:
-          const safari = require('selenium-webdriver/safari')
-          options = new safari.Options()
-          break
-        case browserFirefox:
-          const firefox = require('selenium-webdriver/firefox')
-          options = new firefox.Options()
-          break
-        case browserIE:
-          const ie = require('selenium-webdriver/ie')
-          options = new ie.Options()
-          break
-        case browserEdge:
-          const edge = require('selenium-webdriver/edge')
-          options = new edge.Options()
-          break
-        case browserOpera:
-          const opera = require('selenium-webdriver/opera')
-          options = new opera.Options()
-          break
+        let options = null
+        switch (this.pageConfig.browser) {
+          case browserChrome:
+            const chrome = require('selenium-webdriver/chrome')
+            options = new chrome.Options()
+            break
+          case browserSafari:
+            const safari = require('selenium-webdriver/safari')
+            options = new safari.Options()
+            break
+          case browserFirefox:
+            const firefox = require('selenium-webdriver/firefox')
+            options = new firefox.Options()
+            break
+          case browserIE:
+            const ie = require('selenium-webdriver/ie')
+            options = new ie.Options()
+            break
+          case browserEdge:
+            const edge = require('selenium-webdriver/edge')
+            options = new edge.Options()
+            break
+          case browserOpera:
+            const opera = require('selenium-webdriver/opera')
+            options = new opera.Options()
+            break
+        }
+
+        if (!options) throw new Error(`"${this.pageConfig.browser}" is not supported browser. Selenium-Page supports: ${Object.values(PageDefs.browsers).join(", ")}.`)
+
+        this.pageConfig.browserArgs.forEach(arg => {
+          options.addArguments(arg)
+        })
+
+        /** @type {ThenableWebDriver} */
+        this.driver = new Builder()
+          .setChromeOptions(options)
+          .setSafariOptions(options)
+          .setFirefoxOptions(options)
+          .setIeOptions(options)
+          .setEdgeOptions(options)
+          .setOperaOptions(options)
+          .withCapabilities(caps)
+          .forBrowser(this.pageConfig.browser)
+          .build()
+        console.info(`  Page > Browser: "${this.pageConfig.browser}". Resolution: ${this.pageConfig.resolution.width} x ${this.pageConfig.resolution.height}.`)
       }
-
-      if (!options) throw new Error(`"${this.pageConfig.browser}" is not supported browser. Selenium-Page supports: ${Object.values(PageDefs.browsers).join(", ")}.`)
-
-      this.pageConfig.browserArgs.forEach(arg => {
-        options.addArguments(arg)
-      })
-
-      /** @type {ThenableWebDriver} */
-      this.driver = new Builder()
-        .setChromeOptions(options)
-        .setSafariOptions(options)
-        .setFirefoxOptions(options)
-        .setIeOptions(options)
-        .setEdgeOptions(options)
-        .setOperaOptions(options)
-        .withCapabilities(caps)
-        .forBrowser(this.pageConfig.browser)
-        .build()
 
       this.By = By
       this.until = until
@@ -97,9 +109,8 @@ class Page {
       this.findAllBy = new PageFindAllBy(this.driver, By, this.pageConfig.findConfig)
       this.waitDisappearBy = new PageWaitDisappear(this.driver, By, this.pageConfig.findConfig)
       this.switchToFrame = new PageSwitchToFrame(this.driver, By, this.pageConfig.findConfig)
-      console.info(`  Page > Browser: "${this.pageConfig.browser}". Resolution: ${this.pageConfig.resolution.width} x ${this.pageConfig.resolution.height}.`)
     } catch (error) {
-      return console.error(`  Page > Browser: "${this.pageConfig.browser}". Failure: ${error.message}`)
+      return console.error(`  Page > Failure: ${error.message}`)
     }
   }
 

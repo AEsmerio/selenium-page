@@ -1,12 +1,8 @@
 {
   "name": "selenium-page",
-  "version": "1.0.7",
+  "version": "1.0.8-beta",
   "description": "A superset class for simpler access to most common functionalities Selenium-Webdriver",
   "main": "page.js",
-  "scripts": {
-    "test:e2e - quick": "mocha './demo/quick/google.spec.js'",
-    "test:e2e - recommended": "mocha './demo/test/google.spec.js'"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AEsmerio/selenium-page.git"

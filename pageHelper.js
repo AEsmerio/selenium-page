@@ -19,7 +19,7 @@ const pageFindConfigDefault = {
    * True or Empty string turn on the screenshot on default folder "node_modules/selenium-page/screenshot". 
    * screenshot can also receive a path to change the default folder.
   */
-   screenshot: `${__dirname}/screenshot`
+  screenshot: `${__dirname}/screenshot`
 }
 
 function getContextStack() {
@@ -36,7 +36,7 @@ function getContextStack() {
  * @param {WebDriver} driver 
  */
 async function takeScreenshot(data, name, screenshotFolder) {
-  const base64Data = data.replace(/^data:image\/png;base64,/,"")
+  const base64Data = data.replace(/^data:image\/png;base64,/, "")
   if (!screenshotFolder.endsWith("/")) screenshotFolder += "/"
   const filePath = `${screenshotFolder}${name}.png`
   await fs.promises.mkdir(screenshotFolder, { recursive: true }, console.error)
@@ -62,7 +62,7 @@ class PageBaseFindBy {
    * @param {By} by The class name to search for.
    * @returns {T}
   */
-   async findElement() {}
+  async findElement() { }
 
   /**
    * @param {By} by The class name to search for.
@@ -75,7 +75,7 @@ class PageBaseFindBy {
     try {
       return await this.findElement.call(this, by, config)
     } catch (error) {
-      if (!config.mustFind && error.message.includes("Waiting for element to be locate")) return 
+      if (!config.mustFind && error.message.includes("Waiting for element to be locate")) return
       error.message += `\nBy: ${by}`
       error.message += config.message ? `\nMessage: ${config.message}` : ""
       if (this.pageFindConfig.screenshot) {
@@ -185,7 +185,7 @@ class PageFindBy extends PageBaseFindBy {
 
 /** @extends {PageBaseFindBy<WebElement[]>} */
 class PageFindAllBy extends PageBaseFindBy {
-  
+
   /**
    * @param {By} by The class name to search for.
    * @returns {T}
