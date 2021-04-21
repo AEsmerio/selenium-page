@@ -33,7 +33,9 @@ function getContextStack() {
 }
 
 /**
- * @param {WebDriver} driver 
+ * @param {String} data text base64 
+ * @param {String} name screenshot file name
+ * @param {String} screenshotFolder screenshot folder path
  */
 async function takeScreenshot(data, name, screenshotFolder) {
   const base64Data = data.replace(/^data:image\/png;base64,/, "")
