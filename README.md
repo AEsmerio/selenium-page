@@ -11,6 +11,7 @@ I'm working on it on my free time. Feel free to suggest improvements.
 Selenium-Page may be installed via npm with
 
 ```sh
+npm i selenium-webdriver
 npm i selenium-page
 ```
 Also, download the driver for browser that you want to work with, as per [@selenium-webdriver#installation]( https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/node/selenium-webdriver/README.md#installation )
