@@ -1,6 +1,6 @@
 {
   "name": "selenium-page",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A superset class for simpler access to most common functionalities Selenium-Webdriver",
   "main": "page.js",
   "repository": {
@@ -13,9 +13,6 @@
     "url": "https://github.com/AEsmerio/selenium-page/issues"
   },
   "homepage": "https://github.com/AEsmerio/selenium-page#readme",
-  "dependencies": {
-    "selenium-webdriver": "^4.0.0-beta.1"
-  },
   "keywords": [
     "Selenium",
     "selenium-webdriver",
